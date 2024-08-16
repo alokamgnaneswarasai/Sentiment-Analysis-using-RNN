@@ -9,5 +9,9 @@ fasttext_model/
 *.pth
 *.xlsx
 
+# just include electronics_small.csv
+!electronics_validation.csv
+
+
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/

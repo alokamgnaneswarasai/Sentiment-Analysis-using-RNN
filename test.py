@@ -4,7 +4,7 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import numpy as np
 from preprocessing import load_data
-from model import RNNClassifier, GRUClassifier
+from model import RNNClassifier, GRUClassifier, Bi_GRUClassifier
 from dataloader import get_dataloader
 from eval import evaluate
 from dataloader import TextDataset
@@ -18,7 +18,7 @@ output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset
 input_dim = 300
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU'], help='Model to use for training')
+parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU'], help='Model to use for training')
 args = parser.parse_args()
 
 
@@ -27,7 +27,7 @@ args = parser.parse_args()
 device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
 # X_test, y_test = load_data('data.csv', max_seq_length)
 # X_test,y_test = load_data('electronics_validation.csv', 200)
-X_test,y_test = load_data('data/SST2/test.csv', max_seq_length, label_shifting=False)
+X_test,y_test = load_data('data/SST2/validation.csv', max_seq_length, label_shifting=False)
 
 # Create the dataloader
 
@@ -37,6 +37,9 @@ test_dataloader = get_dataloader(X_test, y_test, batch_size=batch_size)
 
 if args.model == 'RNN':
     model = RNNClassifier(input_dim, hidden_dim, output_dim).to(device)
+    
+elif args.model == 'BI-GRU':
+    model = Bi_GRUClassifier(input_dim, hidden_dim, output_dim).to(device)
    
 elif args.model == 'GRU':
     model = GRUClassifier(input_dim, hidden_dim, output_dim).to(device)

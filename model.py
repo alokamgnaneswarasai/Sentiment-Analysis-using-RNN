@@ -34,6 +34,20 @@ class GRUClassifier(nn.Module):
         out = self.fc(hn[-1])
         return out
     
-    
+class Bi_GRUClassifier(nn.Module):
+        
+    def __init__(self, input_dim, hidden_dim, output_dim):
+        super(Bi_GRUClassifier, self).__init__()
+        self.hidden_dim = hidden_dim
+        self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True, bidirectional=True)
+        self.fc = nn.Linear(hidden_dim*2, output_dim)
+        
+    def forward(self, x):
+        
+        h0 = torch.zeros(2, x.size(0), self.hidden_dim).to(x.device)
+        out, hn = self.gru(x, h0)
+        
+        out = self.fc(torch.cat((hn[-2], hn[-1]), dim=1)) # concatenate the hidden states of the last time step from both directions
+        return out
         
     

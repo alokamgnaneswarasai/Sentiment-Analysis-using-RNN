@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 from dataloader import get_dataloader
-from model import RNNClassifier, GRUClassifier
+from model import RNNClassifier, GRUClassifier , Bi_GRUClassifier
 from eval import evaluate
 from preprocessing import load_data
 import argparse
@@ -44,7 +44,7 @@ def train(model,dataloader,criterion,optimizer,device,num_epochs=10):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU'], help='Model to use for training')
+    parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU'], help='Model to use for training')
     args = parser.parse_args()
     
     
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     max_seq_length = 20 # use 50 for electronics dataset and 10 for SST2 dataset
     input_dim = 300
     hidden_dim = 128
-    output_dim = 2
+    output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
     num_epochs = 50
     learning_rate = 0.0025 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
     batch_size = 1024 # use 32 for electronics dataset and 1024 for SST2 dataset
@@ -78,6 +78,10 @@ if __name__ == '__main__':
     if args.model == 'RNN':
         
         model = RNNClassifier(input_dim, hidden_dim, output_dim).to(device)
+        
+    elif args.model == 'BI-GRU':
+        model = Bi_GRUClassifier(input_dim, hidden_dim, output_dim).to(device)
+        
     else:
         model = GRUClassifier(input_dim, hidden_dim, output_dim).to(device)
         

@@ -25,10 +25,14 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
             loss.backward()
             optimizer.step()
         
-        print(f'Epoch {epoch+1}/{num_epochs} Loss: {loss.item()}')
+        print('**'*25,'Epoch',epoch+1,'**'*25)
+        # print(f'Epoch {epoch+1}/{num_epochs} Loss: {loss.item()}')
         train_accuracy, train_loss ,_= evaluate(model, train_dataloader,criterion,device)
-        val_accuracy, val_loss ,_= evaluate(model, val_dataloader,criterion,device)
-        print(f'Train Accuracy: {train_accuracy} Train Loss: {train_loss} Val Accuracy: {val_accuracy} Val Loss: {val_loss}')
+        val_accuracy, val_loss ,fl_score= evaluate(model, val_dataloader,criterion,device)
+        print(f'Train Accuracy: {train_accuracy} Train Loss: {train_loss}')
+        print(f'validation Accuracy: {val_accuracy} validation Loss: {val_loss}')
+        print(f'F1 Score: {fl_score}')
+    
  
     torch.save(model.state_dict(), f'models/{args.model}_model.pth')
     
@@ -75,7 +79,7 @@ if __name__ == '__main__':
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
     num_epochs = 20
-    learning_rate = 0.002 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
+    learning_rate = 0.001 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
     batch_size = 256 # use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data
@@ -118,7 +122,6 @@ if __name__ == '__main__':
     print("Training the model")
     train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_epochs=num_epochs)
     
-    
-    # Save the model
+
     
     

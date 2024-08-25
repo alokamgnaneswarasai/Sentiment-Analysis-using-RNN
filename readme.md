@@ -28,7 +28,6 @@ Install the dependencies using pip:
 pip install torch gensim pandas numpy
 ```
 
-
 ## Data Format
 
 The dataset should be in CSV format with the following columns:
@@ -45,8 +44,6 @@ overall,reviewText
 4,"Works as expected. Decent quality for the price."
 1,"Terrible experience, would not recommend."
 
-
-
 ## Usage
 
 ### 1. Preprocessing
@@ -59,14 +56,11 @@ To train the model, run:
 
 python3 train.py
 
-
-
 ### 3. Testing
 
 To evaluate the model on test data, run:
 
 python3 test.py
-
 
 ## Files Explanation
 
@@ -129,3 +123,15 @@ The model is a simple RNN with the following layers:
 ## Evaluation
 
 The model is evaluated using Cross-Entropy Loss and accuracy metrics. The evaluation results (loss and accuracy) are printed after the training and testing phases.
+
+
+## Results
+
+Results on SST-dataset for different hyper-parameter and model  configurations
+
+| learning_rate | batch_size | model_used       | Val-accuracy | F1-score |
+| ------------- | ---------- | ---------------- | ------------ | -------- |
+| 0.002         | 256        | CNNClassifier    | 82.91%       | 0.826    |
+| 0.001         | 256        | CNNClassifier    | 84.12%       | 0.8358   |
+| 0.0005        | 32         | CNNClassifier    | 86.3%        |          |
+| 0.0005        | 64         | Bi_GRUClassifier | 88.1%        |          |

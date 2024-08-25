@@ -84,7 +84,7 @@ def plot_loss_accuracy(path,train_loss,train_accuracy,val_loss,val_accuracy):
     plt.plot(val_loss,label='Validation Loss')
     plt.title('Loss')
     plt.legend()
-    plt.savefig(path+'loss.png')
+    plt.savefig(path+'loss.png'+args.model)
     plt.show()
     
     plt.plot(train_accuracy,label='Train Accuracy')
@@ -108,7 +108,7 @@ if __name__ == '__main__':
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
     num_epochs = 30
-    learning_rate = 0.0001 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
+    learning_rate = 0.0005 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
     batch_size = 64 # use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data

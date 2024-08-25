@@ -112,7 +112,9 @@ if __name__ == '__main__':
     batch_size = 256 # use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data
-    X,y = load_data('data.csv', train_max_seq_length)
+    # X,y = load_data('data.csv', train_max_seq_length)
+    
+    X,y = load_data('data/electronics/train.csv', train_max_seq_length)
     
     # X,y = load_data('data/SST2/train.csv', train_max_seq_length,label_shifting=False)
     

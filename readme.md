@@ -129,9 +129,9 @@ The model is evaluated using Cross-Entropy Loss and accuracy metrics. The evalua
 
 Results on SST-dataset for different hyper-parameter and model  configurations
 
-| learning_rate | batch_size | model_used       | Val-accuracy | F1-score |
-| ------------- | ---------- | ---------------- | ------------ | -------- |
-| 0.002         | 256        | CNNClassifier    | 82.91%       | 0.826    |
-| 0.001         | 256        | CNNClassifier    | 84.12%       | 0.8358   |
-| 0.0005        | 32         | CNNClassifier    | 86.3%        |          |
-| 0.0005        | 64         | Bi_GRUClassifier | 88.1%        |          |
+| Emb-dim | lr     | Epochs | batch_size | Dropout | model            | Val-loss | Val-accuracy | F1-score |
+| ------- | ------ | ------ | ---------- | ------- | ---------------- | -------- | ------------ | -------- |
+| 300     | 0.002  | 20     | 256        | 0.5     | CNNClassifier    | 0.42     | 82.91%       | 0.826    |
+| 300     | 0.001  | 20     | 256        | 0.5     | CNNClassifier    | 0.41     | 84.12%       | 0.8358   |
+| 300     | 0.0001 | 30     | 64         | 0.5     | CNNClassifier    | 0.39     | 86.3%        |          |
+|         | 0.0005 |        | 64         |         | Bi_GRUClassifier |          | 88.1%        |          |

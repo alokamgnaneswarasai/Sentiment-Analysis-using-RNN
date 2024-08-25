@@ -12,7 +12,11 @@ device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
 
 def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_epochs=10):
     
-        
+    train_losses=[]
+    train_accuracies=[]
+    val_losses=[]
+    val_accuracies=[]
+    
     model.train()
     model.to(device)
     for epoch in range(num_epochs):
@@ -32,6 +36,13 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
         print(f'Train Accuracy: {train_accuracy} Train Loss: {train_loss}')
         print(f'validation Accuracy: {val_accuracy} validation Loss: {val_loss}')
         print(f'F1 Score: {fl_score}')
+        
+        train_losses.append(train_loss)
+        train_accuracies.append(train_accuracy)
+        val_losses.append(val_loss)
+        val_accuracies.append(val_accuracy)
+        
+    plot_loss_accuracy('plots/',train_losses,train_accuracies,val_losses,val_accuracies)
     
  
     torch.save(model.state_dict(), f'models/{args.model}_model.pth')
@@ -64,6 +75,24 @@ def evaluate(model, dataloader,criterion,device):
         avg_loss = total_loss / len(dataloader)
         f1_score_macro=f1_score(all_labels,all_predictions,average='weighted')
         return accuracy, avg_loss ,f1_score_macro
+    
+    
+def plot_loss_accuracy(path,train_loss,train_accuracy,val_loss,val_accuracy):
+    
+    import matplotlib.pyplot as plt
+    plt.plot(train_loss,label='Train Loss')
+    plt.plot(val_loss,label='Validation Loss')
+    plt.title('Loss')
+    plt.legend()
+    plt.savefig(path+'loss.png')
+    plt.show()
+    
+    plt.plot(train_accuracy,label='Train Accuracy')
+    plt.plot(val_accuracy,label='Validation Accuracy')
+    plt.title('Accuracy')
+    plt.legend()
+    plt.savefig(path+'accuracy.png')
+    plt.show()
 
 if __name__ == '__main__':
     
@@ -78,9 +107,9 @@ if __name__ == '__main__':
     input_dim = 300
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
-    num_epochs = 20
-    learning_rate = 0.001 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
-    batch_size = 256 # use 32 for electronics dataset and 1024 for SST2 dataset
+    num_epochs = 30
+    learning_rate = 0.0001 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
+    batch_size = 64 # use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data
     # X,y = load_data('data.csv', max_seq_length)

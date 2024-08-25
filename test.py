@@ -53,7 +53,8 @@ model.load_state_dict(torch.load(model_path))
 criterion = nn.CrossEntropyLoss()
 
 print("Evaluating the model")
-accuracy, _ = evaluate(model, test_dataloader, criterion, device)
+accuracy, _ ,f1_score= evaluate(model, test_dataloader, criterion, device)
 print(f'Accuracy: {accuracy}')
+print(f'F1 Score: {f1_score}')
 
 

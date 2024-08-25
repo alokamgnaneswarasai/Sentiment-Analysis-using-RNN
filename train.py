@@ -28,7 +28,7 @@ def train(model,dataloader,criterion,optimizer,device,num_epochs=10):
             optimizer.step()
         print(f'Epoch {epoch+1}/{num_epochs} Loss: {loss.item()}')
         
-        accuracy, loss = evaluate(model, dataloader,criterion,device)
+        accuracy, loss ,_= evaluate(model, dataloader,criterion,device)
         print(f'Accuracy: {accuracy} Loss: {loss}')
         # print(f'Report: {report}')
         

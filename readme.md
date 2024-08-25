@@ -127,7 +127,7 @@ The model is evaluated using Cross-Entropy Loss and accuracy metrics. The evalua
 
 ## Results
 
-Results on SST-dataset for different hyper-parameter and model  configurations
+Results on SST2-dataset for different hyper-parameter and model  configurations
 
 | Emb-dim | lr     | Epochs | batch_size | Dropout | model         | Val-loss | Val-accuracy | F1-score |
 | ------- | ------ | ------ | ---------- | ------- | ------------- | -------- | ------------ | -------- |

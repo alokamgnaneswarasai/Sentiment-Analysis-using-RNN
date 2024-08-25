@@ -84,7 +84,7 @@ def plot_loss_accuracy(path,train_loss,train_accuracy,val_loss,val_accuracy):
     plt.plot(val_loss,label='Validation Loss')
     plt.title('Loss')
     plt.legend()
-    plt.savefig(path+'loss.png'+args.model)
+    plt.savefig(path+'loss.png')
     plt.show()
     
     plt.plot(train_accuracy,label='Train Accuracy')
@@ -102,25 +102,26 @@ if __name__ == '__main__':
     
     
     #Hyperparameters
-    train_max_seq_length = 20 # use 50 for electronics dataset and 10 for SST2 dataset
-    valid_max_seq_length = 30
+    train_max_seq_length = 100 # use 50 for electronics dataset and 10 for SST2 dataset
+    valid_max_seq_length = 100
     input_dim = 300
     hidden_dim = 100
-    output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
-    num_epochs = 30
-    learning_rate = 0.0005 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
-    batch_size = 64 # use 32 for electronics dataset and 1024 for SST2 dataset
+    output_dim = 5 # 2 for SST2 dataset and 5 for electronics dataset   
+    num_epochs = 100
+    learning_rate = 0.0025 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
+    batch_size = 256 # use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data
-    # X,y = load_data('data.csv', max_seq_length)
+    X,y = load_data('data.csv', train_max_seq_length)
     
-    X,y = load_data('data/SST2/train.csv', train_max_seq_length,label_shifting=False)
+    # X,y = load_data('data/SST2/train.csv', train_max_seq_length,label_shifting=False)
     
-
     # Create the train dataloader
     train_dataloader = get_dataloader(X, y, batch_size=batch_size)
     
-    X,y = load_data('data/SST2/validation.csv', valid_max_seq_length,label_shifting=False)
+    # X,y = load_data('data/SST2/validation.csv', valid_max_seq_length,label_shifting=False)
+    X,y = load_data('electronics_validation.csv', valid_max_seq_length)
+    
     val_dataloader = get_dataloader(X, y, batch_size=batch_size)
     
     

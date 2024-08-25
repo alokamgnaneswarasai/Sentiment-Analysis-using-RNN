@@ -34,8 +34,11 @@ def text_to_vector(text,max_seq_length):
         vectors = vectors[:max_seq_length]
         
     else:
-        # pad the vectors with zeros
-        vectors += [np.zeros(model.vector_size)] * (max_seq_length - len(vectors))
+        # post-pad the vectors with zeros
+        # vectors += [np.zeros(model.vector_size)] * (max_seq_length - len(vectors))
+        
+        # pre-pad the vectors with zeros
+        vectors = [np.zeros(model.vector_size)] * (max_seq_length - len(vectors)) + vectors
         
     return np.array(vectors)
 

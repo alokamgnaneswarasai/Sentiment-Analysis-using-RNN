@@ -134,4 +134,4 @@ Results on SST2-dataset for different hyper-parameter and model  configurations
 | 300     | 0.002  | 20     | 256        | 0.5     | CNNClassifier | 0.42     | 82.91%       | 0.826    |
 | 300     | 0.001  | 20     | 256        | 0.5     | CNNClassifier | 0.41     | 84.12%       | 0.8358   |
 | 300     | 0.0001 | 30     | 64         | 0.5     | CNNClassifier | 0.39     | 83.1%        | 0.830    |
-| 300     | 0.0005 | 30     | 64         | 0.5     | CNNClassifier |          |              |          |
+| 300     | 0.0009 | 30     | 64         | 0.5     | CNNClassifier | 0.46     | 85.1%        | 0.845    |

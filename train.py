@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.optim import Adam
 from dataloader import get_dataloader
-from model import RNNClassifier, GRUClassifier , Bi_GRUClassifier
+from model import RNNClassifier, GRUClassifier , Bi_GRUClassifier , CNNClassifier
 from eval import evaluate
 from preprocessing import load_data
 import argparse
@@ -44,7 +44,7 @@ def train(model,dataloader,criterion,optimizer,device,num_epochs=10):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU'], help='Model to use for training')
+    parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
     args = parser.parse_args()
     
     
@@ -81,6 +81,10 @@ if __name__ == '__main__':
         
     elif args.model == 'BI-GRU':
         model = Bi_GRUClassifier(input_dim, hidden_dim, output_dim).to(device)
+        
+    elif args.model == 'CNN':
+        print("CNN model selected")
+        model = CNNClassifier(input_dim, output_dim, num_filters=100, filter_sizes=[3,4,5]).to(device)
         
     else:
         model = GRUClassifier(input_dim, hidden_dim, output_dim).to(device)

@@ -69,7 +69,8 @@ if __name__ == '__main__':
     
     
     #Hyperparameters
-    max_seq_length = 25 # use 50 for electronics dataset and 10 for SST2 dataset
+    train_max_seq_length = 20 # use 50 for electronics dataset and 10 for SST2 dataset
+    valid_max_seq_length = 30
     input_dim = 300
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
@@ -80,13 +81,13 @@ if __name__ == '__main__':
     #Load the preprocessed data
     # X,y = load_data('data.csv', max_seq_length)
     
-    X,y = load_data('data/SST2/train.csv', max_seq_length,label_shifting=False)
+    X,y = load_data('data/SST2/train.csv', train_max_seq_length,label_shifting=False)
     
 
     # Create the train dataloader
     train_dataloader = get_dataloader(X, y, batch_size=batch_size)
     
-    X,y = load_data('data/SST2/validation.csv', max_seq_length,label_shifting=False)
+    X,y = load_data('data/SST2/validation.csv', valid_max_seq_length,label_shifting=False)
     val_dataloader = get_dataloader(X, y, batch_size=batch_size)
     
     

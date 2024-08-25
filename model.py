@@ -56,6 +56,8 @@ class CNNClassifier(nn.Module):
         
     def __init__(self,input_dim,output_dim,num_filters,filter_sizes,dropout=0.5):
         super(CNNClassifier,self).__init__()
+        self.emd_dim = 100
+        # self.embedding = nn.Embedding(input_dim, self.embed_dim)
         self.convs = nn.ModuleList([
             nn.Conv2d(1,num_filters,(fs,input_dim)) for fs in filter_sizes
             ])

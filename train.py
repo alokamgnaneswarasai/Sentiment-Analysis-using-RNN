@@ -16,6 +16,7 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
     train_accuracies=[]
     val_losses=[]
     val_accuracies=[]
+    max_accuracy=0
     
     model.train()
     model.to(device)
@@ -33,14 +34,18 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
         # print(f'Epoch {epoch+1}/{num_epochs} Loss: {loss.item()}')
         train_accuracy, train_loss ,_= evaluate(model, train_dataloader,criterion,device)
         val_accuracy, val_loss ,fl_score= evaluate(model, val_dataloader,criterion,device)
+        max_accuracy=max(max_accuracy,val_accuracy)
         print(f'Train Accuracy: {train_accuracy} Train Loss: {train_loss}')
         print(f'validation Accuracy: {val_accuracy} validation Loss: {val_loss}')
         print(f'F1 Score: {fl_score}')
+        print(f'Max Accuracy acheived till now: {max_accuracy}')
         
         train_losses.append(train_loss)
         train_accuracies.append(train_accuracy)
         val_losses.append(val_loss)
         val_accuracies.append(val_accuracy)
+        
+        
         
         # Add L2 regularization
         # for param in model.parameters():
@@ -112,8 +117,8 @@ if __name__ == '__main__':
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   
     num_epochs = 256
-    learning_rate = 0.001 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
-    batch_size = 64 # use 32 for electronics dataset and 1024 for SST2 dataset
+    learning_rate = 0.0015 # use 0.001 for electronics dataset and 0.0025 for SST2 dataset
+    batch_size = 64# use 32 for electronics dataset and 1024 for SST2 dataset
     
     #Load the preprocessed data
     # X,y = load_data('data.csv', train_max_seq_length)
@@ -154,6 +159,9 @@ if __name__ == '__main__':
    
     criterion = nn.CrossEntropyLoss()
     optimizer = Adam(model.parameters(), lr=learning_rate)
+    # use adadealta optimizer as there is no need to set initial learning rate 
+    # optimizer = torch.optim.Adadelta(model.parameters(), rho=0.95, eps=1e-06, weight_decay=0)
+    
     
     print("Training the model")
     train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_epochs=num_epochs)

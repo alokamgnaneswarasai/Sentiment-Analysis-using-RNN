@@ -112,7 +112,7 @@ if __name__ == '__main__':
     
     #Hyperparameters
     train_max_seq_length = 30 # use 50 for electronics dataset and 10 for SST2 dataset
-    valid_max_seq_length = 30
+    valid_max_seq_length = 40
     input_dim = 300
     hidden_dim = 100
     output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset   

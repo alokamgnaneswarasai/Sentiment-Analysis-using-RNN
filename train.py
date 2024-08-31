@@ -35,6 +35,15 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
         # print(f'Epoch {epoch+1}/{num_epochs} Loss: {loss.item()}')
         train_accuracy, train_loss ,_= evaluate(model, train_dataloader,criterion,device)
         val_accuracy, val_loss ,fl_score= evaluate(model, val_dataloader,criterion,device)
+        if val_accuracy>max_accuracy:
+            # save with file name wich consists of all args
+            torch.save(model.state_dict(),f'models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{val_accuracy}.pth')
+            
+            # Delete the previous file where max_accuracy was saved
+            import os
+            os.remove(f'models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{max_accuracy}.pth')
+            
+            
         max_accuracy=max(max_accuracy,val_accuracy)
         max_f1_score=max(max_f1_score,fl_score)
         print(f'Train Accuracy: {train_accuracy} Train Loss: {train_loss}')
@@ -58,9 +67,9 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
     
  
     # torch.save(model.state_dict(), f'models/{args.model}_model.pth')
-    torch.save(model.state_dict(),f'models/{args.dataset}/{args.model}_model.pth')
+    # torch.save(model.state_dict(),f'models/{args.dataset}/{args.model}_model.pth')
     
-    print("Model trained and saved successfully in path ",f'models/{args.model}_model.pth')
+    print("Model trained and saved successfully in path ",f"models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{max_accuracy}.pth")
     
 def evaluate(model, dataloader,criterion,device):
         
@@ -139,12 +148,14 @@ if __name__ == '__main__':
         
       
     else:
-        train_max_seq_length = 50
-        valid_max_seq_length = 100
+        train_max_seq_length = 60
+        valid_max_seq_length = 60
         output_dim = 5 
         X,y = load_data('data.csv', train_max_seq_length,label_shifting=True)
+        # X,y = load_data('data/electronics/train.csv', train_max_seq_length,label_shifting=True)
         train_dataloader = get_dataloader(X, y, batch_size=args.batch_size)
-        X,y = load_data('electronics_validation.csv', valid_max_seq_length,label_shifting=True)
+        # X,y = load_data('electronics_validation.csv', valid_max_seq_length,label_shifting=True)
+        X,y = load_data('amazon_reviews.csv', valid_max_seq_length,label_shifting=True)
         val_dataloader = get_dataloader(X, y, batch_size=args.batch_size)
     
     

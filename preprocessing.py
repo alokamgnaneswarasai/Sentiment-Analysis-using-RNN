@@ -67,3 +67,17 @@ def load_data(data_path, max_seq_length,label_shifting=True):
     print("Data Loading completed")
     return X, y
 
+# create the function to load the test data where the labels are not given in the dataset
+def load_test_data(data_path, max_seq_length):
+    
+    # load the data
+    
+    print("Loading data")
+    data = pd.read_csv(data_path)
+    avg_length = avg_sequence_length(data)
+    print(f'Average sequence length: {avg_length}')
+    
+    X = np.array([text_to_vector(text, max_seq_length) for text in data['reviewText']])
+    
+    print("Data Loading completed")
+    return X

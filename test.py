@@ -3,37 +3,26 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import numpy as np
-from preprocessing import load_data
-from model import RNNClassifier, GRUClassifier, Bi_GRUClassifier
+from preprocessing import load_test_data
+from model import RNNClassifier, GRUClassifier, Bi_GRUClassifier , CNNClassifier
 from dataloader import get_dataloader
 from eval import evaluate
 from dataloader import TextDataset
 import argparse
 
-# Hyperparameters
-max_seq_length = 20 # use 50 for electronics dataset and 10 for SST2 dataset
-batch_size = 32
-hidden_dim = 128
-output_dim = 2 # 2 for SST2 dataset and 5 for electronics dataset
+max_seq_length = 100 # use 50 for electronics dataset and 10 for SST2 dataset
+hidden_dim = 100
+output_dim = 5 
 input_dim = 300
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU'], help='Model to use for training')
+parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
 args = parser.parse_args()
 
-
-
-# Load the preprocessed data
 device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
-# X_test, y_test = load_data('data.csv', max_seq_length)
-# X_test,y_test = load_data('electronics_validation.csv', 200)
-X_test,y_test = load_data('data/SST2/validation.csv', max_seq_length, label_shifting=False)
 
-# Create the dataloader
+X_test = load_test_data('electronics_validation.csv', max_seq_length)
 
-test_dataloader = get_dataloader(X_test, y_test, batch_size=batch_size)
-
-# Load the model
 
 if args.model == 'RNN':
     model = RNNClassifier(input_dim, hidden_dim, output_dim).to(device)
@@ -44,17 +33,32 @@ elif args.model == 'BI-GRU':
 elif args.model == 'GRU':
     model = GRUClassifier(input_dim, hidden_dim, output_dim).to(device)
     
-model_path = f'models/{args.model}_model.pth'
+else:
+    model = CNNClassifier(input_dim, output_dim, num_filters=100, filter_sizes=[3,4,5]).to(device)
+    
+model_path = f'models/electronics/{args.model}_model.pth'
     
 print(f'Loading model from {model_path}')
 print(f'model selected: {args.model}')
 
 model.load_state_dict(torch.load(model_path))
-criterion = nn.CrossEntropyLoss()
 
-print("Evaluating the model")
-accuracy, _ ,f1_score= evaluate(model, test_dataloader, criterion, device)
-print(f'Accuracy: {accuracy}')
-print(f'F1 Score: {f1_score}')
+
+def predict(model,X_test):
+    model.eval()
+    predictions = []
+    with torch.no_grad():
+        for i in range(len(X_test)):
+            X = torch.tensor(X_test[i], dtype=torch.float32).unsqueeze(0).to(device)
+            output = model(X)
+            _, predicted = torch.max(output, 1)
+            predictions.append(predicted.item()+1) # add 1 to get the ratings in the range 1-5
+    return predictions
+
+predictions = predict(model,X_test)
+df = pd.DataFrame(predictions)
+df.to_excel('ratings.xlsx',index=False,header=False)
+print("Predictions saved to ratings.xlsx")
+
 
 

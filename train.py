@@ -3,7 +3,6 @@ import torch.nn as nn
 from torch.optim import Adam
 from dataloader import get_dataloader
 from model import RNNClassifier, GRUClassifier , Bi_GRUClassifier , CNNClassifier
-from eval import evaluate
 from preprocessing import load_data
 import argparse
 from sklearn.metrics import f1_score

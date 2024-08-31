@@ -21,7 +21,8 @@ args = parser.parse_args()
 
 device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
 
-X_test = load_test_data('electronics_validation.csv', max_seq_length)
+# X_test = load_test_data('electronics_validation.csv', max_seq_length)
+X_test = load_test_data('amazon_reviews.csv', max_seq_length)
 
 
 if args.model == 'RNN':
@@ -36,7 +37,8 @@ elif args.model == 'GRU':
 else:
     model = CNNClassifier(input_dim, output_dim, num_filters=100, filter_sizes=[3,4,5]).to(device)
     
-model_path = f'models/electronics/{args.model}_model.pth'
+# model_path = f'models/electronics/{args.model}_model.pth'
+model_path = f'models/electronics/CNN_model_64_200_0.0005_300_50_0.8122270742358079.pth'
     
 print(f'Loading model from {model_path}')
 print(f'model selected: {args.model}')

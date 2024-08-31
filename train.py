@@ -39,9 +39,10 @@ def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_e
             # save with file name wich consists of all args
             torch.save(model.state_dict(),f'models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{val_accuracy}.pth')
             
-            # Delete the previous file where max_accuracy was saved
+         
             import os
-            os.remove(f'models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{max_accuracy}.pth')
+            if max_accuracy!=0:
+                os.remove(f'models/{args.dataset}/{args.model}_model_{args.batch_size}_{args.num_epochs}_{args.learning_rate}_{args.input_dim}_{args.hidden_dim}_{max_accuracy}.pth')
             
             
         max_accuracy=max(max_accuracy,val_accuracy)
@@ -143,7 +144,8 @@ if __name__ == '__main__':
         output_dim = 2
         X,y = load_data('data/SST2/train.csv', train_max_seq_length,label_shifting=False)
         train_dataloader = get_dataloader(X, y, batch_size=args.batch_size)
-        X,y = load_data('data/SST2/testdata.csv', valid_max_seq_length,label_shifting=False)
+        # X,y = load_data('data/SST2/testdata.csv', valid_max_seq_length,label_shifting=False)
+        X,y = load_data('data/SST2/validation.csv', valid_max_seq_length,label_shifting=False)
         val_dataloader = get_dataloader(X, y, batch_size=args.batch_size)
         
       

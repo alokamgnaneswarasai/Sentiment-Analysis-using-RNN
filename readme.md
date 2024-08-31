@@ -128,9 +128,10 @@ The model is evaluated using Cross-Entropy Loss and accuracy metrics. The evalua
 
 Results on SST2-dataset for different hyper-parameter and model  configurations
 
-| Emb-dim | lr     | Epochs | batch_size | Dropout | model         | Val-loss | Val-accuracy | Test-accuracy | F1-score |
-| ------- | ------ | ------ | ---------- | ------- | ------------- | -------- | ------------ | ------------- | -------- |
-| 300     | 0.002  | 20     | 256        | 0.5     | CNNClassifier | 0.42     | 82.91%       |               | 0.826    |
-| 300     | 0.001  | 20     | 64         | 0.5     | CNNClassifier | 0.38     | 85.77%       | 85.72%        | 0.8516   |
-| 300     | 0.0001 | 30     | 64         | 0.5     | CNNClassifier | 0.39     | 84.17%       |               | 0.830    |
-| 300     | 0.0009 | 30     | 64         | 0.5     | CNNClassifier | 0.46     | 85.1%        |               | 0.845    |
+| Emb-dim | lr     | Epochs | batch_size | Dropout | model          | Val-loss | Val-accuracy | Test-accuracy | F1-score |
+| ------- | ------ | ------ | ---------- | ------- | -------------- | -------- | ------------ | ------------- | -------- |
+| 300     | 0.002  | 20     | 256        | 0.5     | CNNClassifier  | 0.42     | 82.91%       |               | 0.826    |
+| 300     | 0.001  | 20     | 64         | 0.5     | CNNClassifier  | 0.38     | 85.77%       | 85.72%        | 0.8516   |
+| 300     | 0.0001 | 30     | 64         | 0.5     | CNNClassifier  | 0.39     | 84.17%       |               | 0.830    |
+| 300     | 0.0009 | 30     | 64         | 0.5     | CNNClassifier  | 0.46     | 85.1%        |               | 0.845    |
+| 300     | 0.001  | 30     | 64         | 0.5     | CNN classifier |          |              | 85.99         | 0.859    |

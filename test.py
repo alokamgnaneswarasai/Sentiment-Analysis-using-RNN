@@ -1,25 +1,22 @@
 import torch
-import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
 import pandas as pd
-import numpy as np
 from preprocessing import load_test_data
 from model import RNNClassifier, GRUClassifier, Bi_GRUClassifier , CNNClassifier
-from dataloader import get_dataloader
-from eval import evaluate
-from dataloader import TextDataset
 import argparse
 
-max_seq_length = 100 # use 50 for electronics dataset and 10 for SST2 dataset
+max_seq_length = 100 # adjust this accoringly
 hidden_dim = 100
 output_dim = 5 
 input_dim = 300
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
+parser.add_argument('--device', type=str, default='cuda:2', help='Device to use for training')
 args = parser.parse_args()
 
-device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
+# device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
+device = torch.device(args.device if torch.cuda.is_available() else 'cpu')
+
 
 # X_test = load_test_data('electronics_validation.csv', max_seq_length)
 X_test = load_test_data('amazon_reviews.csv', max_seq_length)

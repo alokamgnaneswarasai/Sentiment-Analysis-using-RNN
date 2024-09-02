@@ -5,6 +5,7 @@ from gensim.models import FastText
 import pandas as pd
 import numpy as np
 from gensim.models import KeyedVectors as gensim_KeyedVectors
+
 # model = api.load('fasttext-wiki-news-subwords-300')
 model = gensim_KeyedVectors.load_word2vec_format('fasttext_model/wiki-news-300d-1M-subword.bin', binary=True)
 
@@ -13,8 +14,11 @@ def preprocess_text(text):
     # tokenize and preprocess the text
     if not isinstance(text, str):
         text = str(text)
-    return simple_preprocess(text, deacc=True)
+        
 
+    return simple_preprocess(text, deacc=True)
+    
+    
 def avg_sequence_length(data):
     return data['reviewText'].apply(lambda x: len(str(x).split())).mean()
 

@@ -10,7 +10,7 @@ output_dim = 5
 input_dim = 300
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
+parser.add_argument('--model', type=str, default='CNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
 parser.add_argument('--device', type=str, default='cuda:2', help='Device to use for training')
 args = parser.parse_args()
 

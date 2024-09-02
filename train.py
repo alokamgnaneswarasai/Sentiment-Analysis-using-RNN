@@ -9,6 +9,8 @@ from sklearn.metrics import f1_score
 
 device = torch.device('cuda:2' if torch.cuda.is_available() else 'cpu')
 
+
+
 def train(model,train_dataloader,val_dataloader,criterion,optimizer,device,num_epochs,args):
     
     train_losses=[]
@@ -122,7 +124,7 @@ def plot_loss_accuracy(path,train_loss,train_accuracy,val_loss,val_accuracy):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default='RNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
+    parser.add_argument('--model', type=str, default='CNN',choices=['RNN','GRU','BI-GRU','CNN'], help='Model to use for training')
     parser.add_argument('--dataset', type=str, default='electronics',choices=['SST2','electronics'], help='Dataset to use for training')
     parser.add_argument('--batch_size', type=int, default=256, help='Batch size for training')
     parser.add_argument('--num_epochs', type=int, default=100, help='Number of epochs for training')
@@ -153,6 +155,7 @@ if __name__ == '__main__':
         valid_max_seq_length = 60
         output_dim = 5 
         X,y = load_data('data.csv', train_max_seq_length,label_shifting=True)
+        # X,y = load_data('data_augmented.csv', train_max_seq_length,label_shifting=True)
         # X,y = load_data('data/electronics/train.csv', train_max_seq_length,label_shifting=True)
         train_dataloader = get_dataloader(X, y, batch_size=args.batch_size)
         # X,y = load_data('electronics_validation.csv', valid_max_seq_length,label_shifting=True)

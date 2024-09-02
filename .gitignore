@@ -8,15 +8,6 @@ fasttext_model/
 *.csv
 *.pth
 *.xlsx
-# avoid dummy.ipynb file
 *.ipynb 
 plots/
-
-
-
-# just include electronics_small.csv
-# electronics_validation.csv
-
-
-# Ignore Jupyter Notebook checkpoints
 ipynb_checkpoints/.
